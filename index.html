@@ -2,19 +2,106 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Simple Memo</title>
+  <title>gaba-simple-memo</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 200px; }
-    button { margin-top: 10px; width: 100%; padding: 10px; font-size: 16px; }
+    body {
+      margin: 0;
+      padding: 0 20px;
+      background: #f7f8fc;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+    }
+
+    /* メインカード */
+    .container {
+      margin-top: 40px;
+      width: 320px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      border-left: 6px solid #8da9fc;
+      padding-left: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px 18px;
+      resize: none;
+      font-size: 15px;
+      line-height: 1.5;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+      transition: border 0.2s, box-shadow 0.2s;
+  
+      box-sizing: border-box;
+    }
+
+    textarea:focus {
+      outline: none;
+      border: 1px solid #8da9fc;
+      box-shadow: 0 0 0 3px rgba(141, 169, 252, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #8da9fc;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      margin-top: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: bold;
+      box-shadow: 0px 3px 6px rgba(0,0,0,0.15);
+    }
+
+    button:hover {
+      background: #7a97f0;
+      transform: translateY(-2px);
+      box-shadow: 0px 6px 12px rgba(0,0,0,0.15);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+      background: #f0f4ff;
+      padding: 14px;
+      border-radius: 12px;
+      line-height: 1.6;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
+    }
   </style>
 </head>
 <body>
-  <h2>メモ入力</h2>
-  <textarea id="memo"></textarea>
-  <button id="save">保存する</button>
 
-  <p id="result"></p>
+  <div class="container">
+    <h2>メモ入力</h2>
+
+    <textarea id="memo" placeholder="ここにメモを書いてください..."></textarea>
+    <button id="save">保存する</button>
+
+    <p id="result" style="display:none;"></p>
+  </div>
 
   <script>
     const memoEl = document.getElementById('memo');
@@ -26,10 +113,17 @@
       if (!text) return;
 
       const file = await window.electronAPI.saveMemo(text);
-      resultEl.textContent = `保存しました: ${file}`;
+      const filename = file.split('/').pop();
+
+      resultEl.style.display = "block";
+      resultEl.innerHTML = `
+        🌸 <strong>メモ保存完了！</strong><br>
+        📁 <span style="font-size:14px;"><strong>${filename}</strong> にしまったよ。</span>
+      `;
 
       memoEl.value = "";
     });
   </script>
+
 </body>
 </html>
