@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Memo</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 200px; }
+    button { margin-top: 10px; width: 100%; padding: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>メモ入力</h2>
+  <textarea id="memo"></textarea>
+  <button id="save">保存する</button>
+
+  <p id="result"></p>
+
+  <script>
+    const memoEl = document.getElementById('memo');
+    const saveBtn = document.getElementById('save');
+    const resultEl = document.getElementById('result');
+
+    saveBtn.addEventListener('click', async () => {
+      const text = memoEl.value.trim();
+      if (!text) return;
+
+      const file = await window.electronAPI.saveMemo(text);
+      resultEl.textContent = `保存しました: ${file}`;
+
+      memoEl.value = "";
+    });
+  </script>
+</body>
+</html>
