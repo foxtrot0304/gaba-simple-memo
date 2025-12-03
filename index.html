@@ -21,6 +21,8 @@
     const saveBtn = document.getElementById('save');
     const resultEl = document.getElementById('result');
 
+    console.log("preload loaded?", window.electronAPI);
+
     saveBtn.addEventListener('click', async () => {
       const text = memoEl.value.trim();
       if (!text) return;
