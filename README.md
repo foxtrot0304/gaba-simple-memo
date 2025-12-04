@@ -1,4 +1,4 @@
-# gabasimplememo
+# gaba-simple-memo
 very simple memo
 
 # Run
